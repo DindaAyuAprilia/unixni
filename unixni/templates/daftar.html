@@ -1,0 +1,55 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Register{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- Include Navbar -->
+    {% include 'layout/navbar.html' %}
+    {% block content %}
+    <div class="container registration-form" style="width: 95%;">
+        <div class="form-header text-center">
+            <img src="{% static 'images/icon/unix.png' %}" alt="UnixNi Logo" style="width: 30%; height: auto;">
+            <h2>Daftar</h2>
+            <p>Sudah punya akun? <a href="{% url 'masuk' %}">Masuk</a></p>
+        </div>
+        <form method="post" action="{% url 'daftar' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nama" class="form-label">Nama: *</label>
+                <input type="text" id="nama" class="form-control" placeholder="Masukan nama Anda" name="nama" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email: *</label>
+                <input type="email" id="email" class="form-control" placeholder="Masukan alamat email Anda" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Kata sandi: *</label>
+                <input type="password" id="password" class="form-control" placeholder="Masukan kata sandi" name="password" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirm-password" class="form-label">Konfirmasi kata sandi: *</label>
+                <input type="password" id="confirm-password" class="form-control" placeholder="Masukan ulang kata sandi" name="confirm_password" required>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Daftar</button>
+            </div>
+            <div class="divider">Atau</div>
+            <div class="social-login">
+                <button class="btn btn-info" type="button">Daftar dengan akun Twitter</button>
+                <button class="btn btn-danger" type="button">Daftar dengan akun Google</button>
+            </div>
+        </form>
+    </div>
+    <!-- Include Footer -->
+    {% include 'layout/footer.html' %}
+    {% endblock %}
+    {% bootstrap_javascript %}
+</body>
+</html>

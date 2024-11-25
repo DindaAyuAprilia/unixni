@@ -1,0 +1,105 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tentang Kami{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- Sertakan Navbar -->
+    {% include 'layout/navbar.html' %}
+
+    {% block content %}
+    <div class="container" style="width: 95%;">
+        <div class="about-container">
+            <!-- Bagian Judul dan Deskripsi -->
+            <h1 class="text-center about-title mb-3">{{ about_details.title }}</h1>
+            <p class="text-center about-description mb-0">"{{ about_details.subtitle }}"</p>
+            <p class="text-center about-description mb-5">{{ about_details.line }}</p>
+            <div class="image-content text-center">
+                <img src="{{ about_details.logo.url }}" alt="{{ about_details.title }}" style="width: 30%; height: auto;">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center about-intro">{{ about_details.description }}</p>
+                </div>
+            </div>
+            
+            <h2 class="text-center fw-bold fst-italic mb-3">{{ about_details.title2 }}</h2>
+            <!-- Bagian Visi & Misi -->
+            <div class="row mb-0">
+                <div class="text-center about-card col ">
+                    <h3 class="about-heading mb-4">{{ about_details.subtitle2 }}</h3>
+                    <p class="fst-italic flex-column justify-content-center text-center about-mission">{{ about_details.description2 }}</p>
+                </div>
+                <div class="about-card col">
+                    <h3 class="about-heading text-center">{{ about_details.subtitle3 }}</h3>
+                    <div class="col-md">
+                        <ul class="list-unstyled">
+                            {% for mission in mission %}
+                            <li class="mb-0">
+                                <strong>{{ mission.id }}.</strong> {{ mission.list }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bagian Moto dan Keunggulan Perusahaan -->
+            <div class="row mb-0">
+                <div class="mb-3">
+                    <h2 class="text-center fw-bold fst-italic mb-3">{{ about_details.title3 }}</h2>
+                    <p class="about-motto fst-italic text-center">{{ about_details.description4 }}</p>
+                </div>
+                <div>
+                    <h2 class=" about-heading text-center fw-bold fst-italic mb-3">{{ about_details.title4 }}</h2>
+                    <p class="about-advantages text-center">{{ about_details.description5 }}</p>
+                </div>
+            </div>
+
+            <!-- Bagian Struktur Perusahaan -->
+            <div class="row mt-0">
+                <div class="col-md-12 mb-1">
+                    <h2 class="text-center fw-bold fst-italic mb-0">{{ about_details.title5 }}</h2>
+                    <div class="image-content text-center">
+                        <img src="{{ about_details.diagram.url }}" alt="{{ about_details.title }}" style="width: auto; height: auto;">
+                    </div>
+                </div>
+                <h2 class="text-center fw-bold fst-italic mb-3">{{ about_details.title6 }}</h2>
+                <div class="container mb-3">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8"> 
+                            <ul class="about-structur list-unstyled">
+                                {% for structure in structures %}
+                                <li class="mb-2">
+                                    <strong>{{ structure.id }}.</strong> {{ structure.list }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Bagian Informasi Tambahan -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center fw-bold fst-italic">{{ about_details.title7 }}</h3>
+                    <p class="text-center about-adv ">{{ about_details.description7 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sertakan Footer -->
+    {% include 'layout/footer.html' %}
+    {% endblock %}
+
+    {% bootstrap_javascript %}
+</body>
+</html>

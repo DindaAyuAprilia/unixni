@@ -1,0 +1,107 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ kontak_info.title }}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+</head>
+<body>
+    {% include 'layout/navbar.html' %}
+    <div class="container" style="width: 97%;margin-top: 10px;">
+        <div class="contact-page">
+            <h2>{{ kontak_info.title }}</h2>
+            <p class="fst-italic text-center">{{ kontak_info.description }}</p>
+
+            <div class="row ">
+                <!-- Contact Information Column -->
+                <div class="col-md-6 ">
+                    <div class="working-hours d-flex align-items-center">
+                        <img src="{% static 'images/icon/calendar.png' %}" alt="Clock Icon" style="width:  15%; height: auto;padding: 2%;">
+                        <div>
+                            <h4>{{ kontak_info.subtitle }}</h4>
+                            <ul>
+                                {% for hour in working_hours %}
+                                    <li>{{ hour.list }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="email-contact d-flex align-items-center">
+                        <img src="{% static 'images/icon/email.png' %}" alt="Email Icon" style="width:  15%; height: auto;padding: 2%;">
+                        <p>{{ kontak_info.description2 }}</p>
+                    </div>
+                    <div class="phone-contact d-flex align-items-center">
+                        <img src="{% static 'images/icon/wa.png' %}" alt="Phone Icon" style="width:  15%; height: auto;padding: 2%;">
+                        <p>{{ kontak_info.description3 }}</p>
+                    </div>
+                    <div class="address-contact d-flex align-items-center">
+                        <img src="{% static 'images/icon/map.png' %}" alt="Address Icon" style="width:  15%; height: auto;padding: 2%;">
+                        <div>
+                            <h4>{{ kontak_info.subtitle2 }}</h4>
+                            <ul>
+                                {% for address in address_info %}
+                                    <li>{{ address.list }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Email Form Column -->
+                <div class="col-md-6">
+                    <div class="contact-form">
+                        <h4>Email</h4>
+                        <form method="post" action="{% url 'kontak' %}">
+                            {% csrf_token %}
+                            <label for="to">Ke:</label>
+                            <input type="email" id="to" name="to" value="{{ kontak_info.description2 }}" readonly>
+                            <label for="from">Dari:</label>
+                            <input type="email" id="from" name="from" value="Email Anda">
+                            <label for="subject">Subjek:</label>
+                            <input type="text" id="subject" name="subject">
+                            <label for="message">Pesan:</label>
+                            <textarea id="message" name="message"></textarea>
+                            <button type="submit">Kirim</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Map Display -->
+        <div class="map-display d-flex align-items-center justify-content-center" style="padding-top: 20px; padding-bottom: 20px;">
+            <iframe
+                width="1000"
+                height="750"
+                style="border:0"
+                loading="lazy"
+                allowfullscreen
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31917.429626756777!2d117.1409036!3d-0.4793265499999904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67f4bb8b9dcd1%3A0x6fd5d38233261f93!2sUniversitas%20Mulawarman!5e0!3m2!1sid!2sid!4v1731909267280!5m2!1sid!2sid"
+                width="600"
+                height="450"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+    </div>
+    {% include 'layout/footer.html' %}
+    {% bootstrap_javascript %}
+
+    {% if messages %}
+    <script type="text/javascript">
+        window.onload = function() {
+            {% for message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        }
+    </script>
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Homepage{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- Include Navbar -->
+    {% include 'layout/navbar.html' %}
+    {% block content %}
+
+    <!-- Welcome Card -->
+    <div class="unixni-welcome-card text-center d-flex align-items-center custom-padding">
+        {% for card in welcome_cards %}
+            <div class="text-content">
+                <h1>{{ card.title }}</h1>
+                <p>"{{ card.description }}"</p>
+                <a href="#" class="btn btn-custom">Selengkapnya</a>
+            </div>
+            <div class="image-content custom-padding">
+                <img src="{{ card.image.url }}" alt="{{ card.title }}" style="width: 100%; height: auto;">
+            </div>
+        {% endfor %}
+    </div>
+    
+
+    <!-- Nilai Perusahaan -->
+    <div class="nilai-perusahaan-container text-center custom-padding" style="padding-top: 30px;">
+        <h2 class="mt-3">{{ company_profile.title1 }}</h2>
+        <p class="mt-2">{{ company_profile.subtitle }}</p>
+        <div class="container align-items-center custom-padding ">
+            <div class="row ">
+                {% for value in company_values %}
+                <div class="col">
+                    <span class="circle">{{ value.abbreviation }}</span>
+                    <p>{{ value.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Telah Dipercaya Oleh -->
+    <div class="trusted-brands-carousel text-center" style="padding-top: 30px;padding-bottom: 0px;">
+        <h2>{{ company_profile.title2 }}</h2>
+        <div id="trustedCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
+            <div class="carousel-inner">
+                {% for brands_chunk in trusted_brands|slice:"5" %}
+                <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                    <div class="row">
+                        {% for brand in brands_chunk %}
+                        <div class="col">
+                            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="brand-logo">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#trustedCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </a>
+            <button class="carousel-control-next" type="button" data-bs-target="#trustedCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    
+
+
+
+    <!-- Testimoni Carousel -->
+    <div class="container-testimoni-unik custom-padding" style="padding-top: 0px;">
+        <h2>{{ company_profile.title3 }}</h2>
+        <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel">
+            
+            <!-- Carousel inner container for testimonial items -->
+            <div class="carousel-inner custom-padding">
+                {% for group in grouped_testimonials %}
+                <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                    <div class="row">
+                        {% for testimonial in group %}
+                        <div class="col-md-4 testimoni">
+                            <!-- Testimonial profile and content -->
+                            <div class="profil-testimoni d-flex align-items-center justify-content-center">
+                                <div>
+                                    <blockquote class="text-center">
+                                        "{{ testimonial.testimonial_text }}"
+                                    </blockquote>
+                                    <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="gambar-testimoni me-2">
+                                    <span class="nama-testimoni">{{ testimonial.name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Carousel controls -->
+            <a class="carousel-control-prev" href="#testimonialsCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </a>
+            <a class="carousel-control-next" href="#testimonialsCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+
+
+
+
+   <!-- FAQ Section -->
+    <div class="container faq-container">
+        <h2 class="text-center">{{ company_profile.title4 }}</h2>
+        <div class="accordion" id="faqAccordion">
+            {% for faq in faqs %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="true">
+                        {{ faq.question }}
+                    </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse{% if forloop.first %} show{% endif %}" aria-labelledby="heading{{ forloop.counter }}">
+                    <div class="accordion-body">
+                        {{ faq.answer }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    <!-- Include Footer -->
+    {% include 'layout/footer.html' %}
+    {% endblock %}
+    
+    {% bootstrap_javascript %}
+</body>
+</html>

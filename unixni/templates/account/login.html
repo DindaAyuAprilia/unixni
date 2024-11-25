@@ -1,0 +1,27 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% load socialaccount %}  <!-- Add this line to load socialaccount template tags -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Masuk{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+</head>
+<body>
+    {% block content %}
+
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Log-in"></p>
+    </form>
+    
+    {% endblock %}
+
+    {% bootstrap_javascript %}
+</body>
+</html>

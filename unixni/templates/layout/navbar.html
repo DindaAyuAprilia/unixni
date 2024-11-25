@@ -1,0 +1,29 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-custom bg-custom">
+    <div class="container" style="width: 95%;">
+        <!-- Logo on the left -->
+        <a class="navbar-brand" href="{% url 'homepage' %}">
+            <img src="{% static 'images/icon/unixni.png' %}" alt="UnixNi Logo" height="30"> 
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Navigation on the right -->
+            <div class="btn-group ms-auto" role="group" aria-label="Basic example">
+                <a class="btn btn-outline nav-link {% if request.resolver_match.url_name == 'homepage' %}active{% endif %}" href="{% url 'homepage' %}">Beranda</a>
+                <a class="btn btn-outline nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">Tentang Kami</a>
+                <a class="btn btn-outline nav-link {% if request.resolver_match.url_name == 'tim' %}active{% endif %}" href="{% url 'tim' %}">Tim</a>
+                <a class="btn btn-outline nav-link {% if request.resolver_match.url_name == 'galeri' %}active{% endif %}" href="{% url 'galeri' %}">Galeri</a>
+                <a class="btn btn-outline nav-link {% if request.resolver_match.url_name == 'blog' %}active{% endif %}" href="{% url 'blog' %}">Blog</a>
+                <a class="btn btn-outline nav-link {% if request.resolver_match.url_name == 'kontak' %}active{% endif %}" href="{% url 'kontak' %}">Kontak</a>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline nav-link">Keluar</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

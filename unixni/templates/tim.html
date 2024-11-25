@@ -1,0 +1,85 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tim{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- Include Navbar -->
+    {% include 'layout/navbar.html' %}
+    {% block content %}
+
+    <!-- Section Tim -->
+    <div class="container" style="width: 95%;">
+        <div class="about-container">
+            <!-- Bagian Judul dan Deskripsi -->
+            <h1 class="text-center about-title mb-3">{{ tim_details.title }}</h1>
+            <p class="text-center about-description mb-0">"{{ tim_details.subtitle }}"</p>
+            <p class="text-center about-description mb-0">{{ tim_details.line }}</p>
+            <div class="image-content text-center mt-5 mb-3 align-items-center justify-content-center">
+                <img src="{{ tim_details.profil.url }}" alt="{{ tim_details.title }}" style="border-radius: 10px;width: 70%; height: auto;">
+            </div>
+            <h2 class="text-center fw-bold fst-italic mb-3">{{ tim_details.title2 }}</h2>
+
+
+            <!-- Bagian Nilai & Pencapaian -->
+            <div class="row mb-0">
+                <div class="about-card col ">
+                    <h3 class="text-center about-heading mb-4">{{ tim_details.subtitle2 }}</h3>
+                    <div class="col-md">
+                        <ul class="list-unstyled">
+                            {% for value in value %}
+                            <li class="mb-2">
+                                <strong>{{ value.id }}.</strong> {{ value.list }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="about-card col">
+                    <h3 class="about-heading text-center">{{ tim_details.subtitle3 }}</h3>
+                    <div class="col-md">
+                        <ul class="list-unstyled">
+                            {% for pencapaian in pencapaian %}
+                            <li class="mb-2">
+                                <strong>{{ pencapaian.id }}.</strong> {{ pencapaian.list }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+        </div>
+            
+    
+
+        <!-- Target Tim -->
+        <h2 class="text-center fw-bold fst-italic mb-3">{{ tim_details.title3 }}</h2>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8"> 
+                    <ul class="about-structur list-unstyled">
+                        {% for target in target %}
+                        <li class="mb-2">
+                            <strong>{{ target.id }}.</strong> {{ target.list }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Include Footer -->
+    {% include 'layout/footer.html' %}
+    {% endblock %}
+
+    {% bootstrap_javascript %}
+</body>
+</html>

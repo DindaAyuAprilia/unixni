@@ -1,0 +1,99 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Galeri{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+    <script src="{% static 'js/carousel.js' %}" defer></script>
+</head>
+<body>
+    <!-- Include Navbar -->
+    {% include 'layout/navbar.html' %}
+    {% block content %}
+
+    <!-- Galeri Utama -->
+    <div class="container" style="width: 95%;margin-bottom: 100px;">
+        <!-- Header Galeri -->
+        <div class="about-container">
+            <!-- Bagian Judul dan Deskripsi -->
+            <h1 class="text-center about-title mb-3">{{ galeri_utama.title }}</h1>
+            <p class="text-center about-description mb-0">"{{ galeri_utama.subtitle }}"</p>
+            <p class="text-center about-description mb-0">{{ galeri_utama.line }}</p>
+        </div>
+
+        
+         <!-- Semua Galeri -->
+        {% for galeri_info in galeri_data %}
+        <div id="galeri-{{ forloop.counter }}" class="galeri-section {% if forloop.first %}active{% else %}d-none{% endif %}" style="padding-top:0px">
+            <h2 class="text-center">{{ galeri_info.galeri.title }}</h2>
+            <p class="text-center">{{ galeri_info.galeri.description }}</p>
+            <!-- Dropdown untuk Pilihan Galeri -->
+            <div class="dropdown text-center mt-3 mb-3" >
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #9B7EBD; padding-bottom:0px">
+                    Pilih Galeri
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for galeri in galeri_list %}
+                    <li>
+                        <a class="dropdown-item galeri-select" data-galeri-id="galeri-{{ forloop.counter }}">
+                            {{ galeri.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Carousel -->
+            <div id="carousel-{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel" style="background-color: #9B7EBD; border-radius: 20px; padding-bottom: 20px">
+                <div class="carousel-inner">
+                    {% for group in galeri_info.items %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="row justify-content-center">
+                            {% for item in group %}
+                            <div class="position-relative col-md-4 col-6 d-flex justify-content-center" style="padding-right: 5%;">
+                                <img src="{{ item.image.url }}" alt="{{ galeri_info.galeri.title }}" class="galeri-image img-fluid" style="width: 800px; height: 300px;object-fit: cover;" data-bs-toggle="modal" data-bs-target="#imageModal-{{ item.id }}">
+                                <div class="carousel-caption">
+                                    <p>{{ item.date }}</p>
+                                </div>
+                            </div>
+                            <!-- Modal for Image Preview -->
+                            <div class="modal fade" id="imageModal-{{ item.id }}" tabindex="-1" aria-labelledby="imageModalLabel-{{ item.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="imageModalLabel-{{ item.id }}">{{ galeri_info.galeri.title }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{ item.image.url }}" alt="{{ galeri_info.galeri.title }}" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ forloop.counter }}" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ forloop.counter }}" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Include Footer -->
+    {% include 'layout/footer.html' %}
+    {% endblock %}
+    {% bootstrap_javascript %}
+</body>
+</html>

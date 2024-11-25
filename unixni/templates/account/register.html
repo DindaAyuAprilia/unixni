@@ -1,0 +1,83 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Daftar{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+</head>
+<body>
+    {% block content %}
+    <div class="full-screen">
+        <div class="container-fluid" style="padding-right: 10%;padding-left: 10%;margin-bottom: 10%;">
+            <div class="row text-center" style="align-items: flex-end;">
+                <div class="col-md-4">
+                    <h1 class="fw-bold">Daftar</h1>
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'images/icon/logo.png' %}" alt="unix" class="img-fluid" style="max-height: 150px;">
+                </div>
+                <div class="col-md-4">
+                    <p>Sudah Punya Akun? <a href="{% url 'login' %}" class="link-daftar">Masuk</a></p>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12" style="border: 2px solid #3C2A21; border-radius: 20px; background-color: #9B7EBD;padding:5%">
+                    <form class="text-left" action="." method="post">
+                        {% csrf_token %}
+                        <div class="mb-3"> <!-- Margin-bottom for spacing -->
+                            <label for="id_username" class="form-label">Username:</label>
+                            <input type="text" class="form-control" id="id_username" name="{{ user_form.username.name }}" placeholder="Enter username" required>
+                            {{ user_form.username.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_first_name" class="form-label">Nama Pertama:</label>
+                            <input type="text" class="form-control" id="id_first_name" name="{{ user_form.first_name.name }}" placeholder="Enter first name">
+                            {{ user_form.first_name.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email address:</label>
+                            <input type="email" class="form-control" id="id_email" name="{{ user_form.email.name }}" placeholder="Enter email" required>
+                            {{ user_form.email.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" id="id_password" name="{{ user_form.password.name }}" placeholder="Enter password" required>
+                            {{ user_form.password.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_password2" class="form-label">Ulang password:</label>
+                            <input type="password" class="form-control" id="id_password2" name="{{ user_form.password2.name }}" placeholder="Repeat password" required>
+                            {{ user_form.password2.errors }}
+                        </div>
+                        <button type="submit" class="btn btn-custom fw-bold text-center">Daftar</button>
+                    </form>
+                    
+                    <p>____________________   Atau   _____________________</p>
+                    <div class="row pb-4">
+                        <div class="col-md-4">
+                            <p> Daftar dengan akun: </p>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'social:begin' 'twitter' %}" class="btn btn-custom" style="background-color: #1DA1F2">Twitter</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-custom" style="background-color: #DB4437;">Google</a>
+                        </div>
+                        {% comment %} <div class="col-md-4">
+                            <a href="{% url 'password_reset' %}" class="btn btn-custom fw-bold">Lupa Password?</a>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    {% bootstrap_javascript %}
+</body>
+</html>

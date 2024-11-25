@@ -1,0 +1,98 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blog{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+    <script src="{% static 'js/carousel.js' %}" defer></script>
+</head>
+<body>
+    {% include 'layout/navbar.html' %}
+
+    {% block content %}
+    <div class="container mt-4 mb-4">
+        <header class="blog-header">
+            <h1>Blog</h1>
+            <p>"Artikel dan Pembaruan Terbaru dari UnixNi"</p>
+            <form class="search-bar" action="{% url 'blog' %}" method="get">
+                <input type="text" name="search" placeholder="Cari kata kunci dari artikel" aria-label="Search" value="{{ request.GET.search }}">
+                <button type="submit">Cari</button>
+            </form>            
+        </header>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="blog-articles">
+                    {% for post in posts %}
+                        <div class="article">
+                            <div class="col">
+                                <a href="{% url 'blog_detail' pk=post.pk %}">
+                                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                                    <h3>{{ post.title }}</h3>
+                                </a>
+                                <div class="row date-love-container" style="padding-left:0;align-items:first baseline">
+                                    <div class="col">
+                                        <!-- Tanggal Artikel -->
+                                        <p style="font-size: 100%;">{{ post.publish_date|date:"d/m/Y" }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <!-- Ikon Love -->
+                                        {% if user in post.likes.all %}
+                                            <img src="{% static 'images/icon/full_love.png' %}" alt="Unlike" class="love-icon" style="width:20px;" >
+                                        {% else %}
+                                            <img src="{% static 'images/icon/not_love.png' %}" alt="Like" class="love-icon" style="width:20px;align-items:self-end">
+                                        {% endif %}
+                                    </div>
+                                    
+                                </div>
+                                
+                                <!-- <form action="{% url 'blog_like' pk=post.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit">
+                                        {% if user in post.likes.all %}
+                                            <img src="{% static 'images/icon/full_love.png' %}" alt="Unlike" style="width:10%;">
+                                        {% else %}
+                                            <img src="{% static 'images/icon/not_love.png' %}" alt="Like" style="width:10%;">
+                                        {% endif %}
+                                    </button>
+                                </form> -->
+                            </div>
+                            <span>Tags: 
+                                {% for tag in post.tags.all %}
+                                    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>                
+            </div>
+            
+
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <h4>Anda mungkin juga tertarik dengan postingan berikut:</h4>
+                    <ul>
+                        {% for related in posts.first.related_posts.all %}
+                            <li>{{ related.title }}</li>
+                        {% endfor %}
+                    </ul> <br>
+                    <h4>Jangan lewatkan artikel terbaru kami:</h4>
+                    <ul>
+                        {% for post in recent_posts %}
+                            <li><a href="{% url 'blog_detail' pk=post.pk %}">{{ post.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>            
+        </div>
+    </div>
+    {% endblock %}
+
+    {% include 'layout/footer.html' %}
+    {% bootstrap_javascript %}
+</body>
+</html>

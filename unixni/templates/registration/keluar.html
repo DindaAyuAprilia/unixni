@@ -1,0 +1,43 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Keluar{% endblock %}</title>
+    {% bootstrap_css %}
+    <link href="{% static 'css/pribadi.css' %}" rel="stylesheet">
+</head>
+<body>
+    {% block content %}
+    <div class="full-screen" style="align-items: center;">
+        <div class="container-fluid" style="padding-right: 10%;padding-left: 10%;">
+            <div class="row text-center mb-3" style="align-items: flex-end;">
+                <div class="col-md-4">
+                    <h1 class="fw-bold">Keluar</h1>
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'images/icon/logo.png' %}" alt="unix" class="img-fluid" style="max-height: 150px;">
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12" style="border: 2px solid #3C2A21; border-radius: 20px; background-color: #9B7EBD;padding:5%">
+                    <h1>Keluar dari Website</h1>
+                    <p>Terimakasih telah menggunakan website kami, klik jika anda ingin <a href="{% url 'login' %}">masuk kembali.</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    {% bootstrap_javascript %}
+</body>
+</html>
+
+
+
+
+
+
